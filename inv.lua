@@ -135,6 +135,7 @@ function getCurrenAmountOfItemsBeeingSmelted(item)
     if not v.getItemDetail(1) == nil then
       if v.getItemDetail(1).name == item then
         amount = v.getItemDetail(1).count + amount
+      end
     end
   end
   return amount
