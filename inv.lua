@@ -84,7 +84,7 @@ end
 function checkFuelStatusAndRefill(expectedamount, slottocheck)
   local result = {}
   local amounttobemoved = 0
-  local furnaces = { peripheral.find("minecraft:furnace") }
+  local furnaces = getFurnaces()
   for k,v in pairs(furnaces) do
     if v.getItemDetail(2) == nil then
       amounttobemoved = expectedamount
@@ -111,6 +111,53 @@ function emptyFurnaces()
   for k,v in pairs(furnaces) do
     chest.pullItems(peripheral.getName(v),3)
   end
+end
+
+function getFurnaces()
+  return { peripheral.find("minecraft:furnace") }
+end
+
+
+function getFreeFurnaces()
+  local furnaces = getFurnaces()
+  for k,v in pairs(furnaces) do
+    if v.getItemDetail(1) == nil then
+      table.insert(v)
+    end
+  end
+  return furnaces
+end
+
+function getCurrenAmountOfItemsBeeingSmelted(item)
+  local furnaces = getFurnaces()
+  amount = 0
+  for k,v in pairs(furnaces) do
+    if not v.getItemDetail(1) == nil then
+      if v.getItemDetail(1).name == item then
+        amount += v.getItemDetail(1).count
+    end
+  end
+  return amount
+end
+
+function produceCharcoal(itemlimit)
+  currentAmount = getCurrenAmountOfItemsBeeingSmelted("minecraft:oak_log") + findItemInAllInventoriesByName("minecraft:charcoal")["amount"]
+  if currentAmount < itemlimit then
+      coal = findItemInAllInventoriesByName("minecraft:oak_log")
+      if coal["amount"] > 0 then
+        furnaces = getFreeFurnaces()
+        if not furnaces == nil then
+          amounttobemoved = itemlimit - currentAmount
+          coal["inv"].pushItems(peripheral.getName(furnaces[1]),coal["slot"],amounttobemoved,2)
+        else
+          print("no free furnaces")
+        end
+      else
+        print("no logs in stock to be burned")
+      end
+    else
+      print("enough charcoal in stock")
+    end
 end
     
         
