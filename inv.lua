@@ -109,7 +109,11 @@ function emptyFurnaces()
   local furnaces = { peripheral.find("minecraft:furnace") }
   local chest = peripheral.find("minecraft:chest")
   for k,v in pairs(furnaces) do
-    chest.pullItems(peripheral.getName(v),3)
+    if v.getItemDetail(2).name == "Charcoal" then
+      findItemInAllInventoriesByName("Charcoal")["inv"].pullItems(peripheral.getName(v),3)
+    else
+      chest.pullItems(peripheral.getName(v),3)
+    end
   end
 end
 
@@ -123,8 +127,8 @@ function getFreeFurnaces()
   freefurnaces = {}
   for k,v in pairs(furnaces) do
     if v.getItemDetail(1) == nil then
-      print("free furnace found")
-      table.insert(freefurnaces,peripheral.getName(v))
+      --print("free furnace found")
+      table.insert(freefurnaces,v)
     end
   end
   return freefurnaces
@@ -147,10 +151,10 @@ function produceCharcoal(itemlimit)
   currentAmount = getCurrenAmountOfItemsBeeingSmelted("Oak Log") + findItemInAllInventoriesByName("Charcoal")["amount"]
   if currentAmount < itemlimit then
     oak = findItemInAllInventoriesByName("Oak Log")
-    print(oak["amount"])
+    --print(oak["amount"])
     if oak["amount"] > 0 then
       furnaces = getFreeFurnaces()
-      if not furnaces == nil then
+      if furnaces ~= nil then
         amounttobemoved = itemlimit - currentAmount
         oak["inv"].pushItems(peripheral.getName(furnaces[1]),oak["slot"],amounttobemoved,1)
       else
