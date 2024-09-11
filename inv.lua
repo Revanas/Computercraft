@@ -43,7 +43,7 @@ function findItemInAllInventoriesByName(item)
     for k,v in pairs(chests) do
       print("Durchsuche Kiste: "..k)
       local _result = findItemInInventoryByName(v, item)
-      print(_result["slot"])
+      --print(_result["slot"])
       if (_result["slot"] ~= 0) then
         print("Item gefunden!")
         result["slot"] = _result["slot"]
@@ -60,9 +60,9 @@ end
 function findItemInInventoryByName(inventory,item)
   local temp_result = { slot = 0, amount = 0 }
   for slot, _item in pairs(inventory.list()) do
-    print("Vorhandenes Item: "..textutils.serialise(_item))
+    --print("Vorhandenes Item: "..textutils.serialise(_item))
     details = inventory.getItemDetail(slot)
-    print(textutils.serialise(details))
+    --print(textutils.serialise(details))
     if (details.displayName == item) then
       print("Item gefunden!")
       temp_result["slot"] = slot
@@ -77,19 +77,34 @@ end
 --expectedamount: The amount of items expected in the fuel slot. If count is below it will be returned
 --slottocheck: The slot the holds the fuel, default should be 2
 --amounttorefill: Define how many items should be moved
-function checkFuelStatusAndRefill(expectedamount, slottocheck, amounttorefill)
+--Exampel:
+--os.loadAPI("inv.lua")
+--inv.checkFuelStatusAndRefill(6, 2)
+function checkFuelStatusAndRefill(expectedamount, slottocheck)
   local result = {}
   local furnaces = { peripheral.find("minecraft:furnace") }
-  for k,v in pairs(chests) do
-    if v.getItemDetail(2).count < expectedamount then
-      coal = findItemInAllInventoriesByName("charcoal")
+  for k,v in pairs(furnaces) do
+    if v.getItemDetail(2) == nil then
+      amountobemoved = expectedamount
+    elseif v.getItemDetail(2).count < expectedamount then
+      amountobemoved = expectedamount - v.getItemDetail(2).count
+    else
+      amountobemoved = 0
+    end
+
+
+      
+    if v.getItemDetail(2) == nil or v.getItemDetail(2).count < expectedamount then
+      coal = findItemInAllInventoriesByName("Charcoal")
       if coal["amount"] > 0 then
-        if coal["amount"] >= expectedamount - v.getItemDetail(2).count then
+        if not v.getItemDetail(2) == nil or coal["amount"] >= expectedamount - v.getItemDetail(2).count then
           amountobemoved = expectedamount - v.getItemDetail(2).count
-        else
+        elseif coal["amount"] <= expectedamount then
           amounttobemoved = coal["amount"]
+        else
+          amounttobemoved = expectedamount
         end
-        coal["inv"].pushItems(peripheral.getName(v),coal["slot"],amounttobemoved,slottocheck
+        coal["inv"].pushItems(peripheral.getName(v),coal["slot"],amounttobemoved,slottocheck)
       else
         print("No Charcoal available!!!")
       end
