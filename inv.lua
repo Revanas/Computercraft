@@ -1,4 +1,4 @@
---inventory basic methods
+--inventory basic methods 
 
 --tostring()
 --tonumber()
