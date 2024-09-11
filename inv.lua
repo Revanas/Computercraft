@@ -92,18 +92,8 @@ function checkFuelStatusAndRefill(expectedamount, slottocheck)
       amountobemoved = 0
     end
 
-
-      
-    if v.getItemDetail(2) == nil or v.getItemDetail(2).count < expectedamount then
-      coal = findItemInAllInventoriesByName("Charcoal")
+    if amountobemoved > 0 then
       if coal["amount"] > 0 then
-        if not v.getItemDetail(2) == nil or coal["amount"] >= expectedamount - v.getItemDetail(2).count then
-          amountobemoved = expectedamount - v.getItemDetail(2).count
-        elseif coal["amount"] <= expectedamount then
-          amounttobemoved = coal["amount"]
-        else
-          amounttobemoved = expectedamount
-        end
         coal["inv"].pushItems(peripheral.getName(v),coal["slot"],amounttobemoved,slottocheck)
       else
         print("No Charcoal available!!!")
