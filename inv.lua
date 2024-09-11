@@ -104,6 +104,14 @@ function checkFuelStatusAndRefill(expectedamount, slottocheck)
     end
   end
 end
+
+function emptyFurnaces()
+  local furnaces = { peripheral.find("minecraft:furnace") }
+  local chest = peripheral.find("minecraft:chest")
+  for k,v in pairs(furnaces) do
+    chest.pullItems(peripheral.getName(v),3)
+  end
+end
     
         
 
