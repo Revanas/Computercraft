@@ -120,11 +120,11 @@ end
 
 function getFreeFurnaces()
   local furnaces = getFurnaces()
-  local freefurnaces = {}
+  freefurnaces = {}
   for k,v in pairs(furnaces) do
     if v.getItemDetail(1) == nil then
       print("free furnace found")
-      table.insert(freefurnaces, v)
+      table.insert(freefurnaces,v)
     end
   end
   return freefurnaces
