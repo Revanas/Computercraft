@@ -42,7 +42,7 @@ function findItemInAllInventoriesByName(item)
     chests = { peripheral.find("sophisticatedstorage:limited_barrel") }
     --chests = { peripheral.find("minecraft:chest") }
     for k,v in pairs(chests) do
-      print("Durchsuche Kiste: "..k)
+      --print("Durchsuche Kiste: "..k)
       local _result = findItemInInventoryByName(v, item)
       --print(_result["slot"])
       if (_result["slot"] ~= 0) then
@@ -65,7 +65,7 @@ function findItemInInventoryByName(inventory,item)
     details = inventory.getItemDetail(slot)
     --print(textutils.serialise(details))
     if (details.displayName == item) then
-      print("Item gefunden!")
+      --print("Item gefunden!")
       temp_result["slot"] = slot
       temp_result["amount"] = details.count
       return temp_result
@@ -123,6 +123,7 @@ function getFreeFurnaces()
   local freefurnaces = {}
   for k,v in pairs(furnaces) do
     if v.getItemDetail(1) == nil then
+      print("free furnace found")
       table.insert(freefurnaces, v)
     end
   end
