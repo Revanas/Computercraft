@@ -124,7 +124,7 @@ end
 
 function getFreeFurnaces()
   local furnaces = getFurnaces()
-  freefurnaces = nil
+  freefurnaces = {}
   for k,v in pairs(furnaces) do
     if v.getItemDetail(1) == nil then
       --print("free furnace found")
@@ -154,7 +154,7 @@ function produceCharcoal(itemlimit)
     --print(oak["amount"])
     if oak["amount"] > 0 then
       furnaces = getFreeFurnaces()
-      if furnaces ~= nil then
+      if #furnaces > 0 then
         amounttobemoved = itemlimit - currentAmount
         oak["inv"].pushItems(peripheral.getName(furnaces[1]),oak["slot"],amounttobemoved,1)
       else
