@@ -144,19 +144,20 @@ end
 function produceCharcoal(itemlimit)
   currentAmount = getCurrenAmountOfItemsBeeingSmelted("minecraft:oak_log") + findItemInAllInventoriesByName("minecraft:charcoal")["amount"]
   if currentAmount < itemlimit then
-      oak = findItemInAllInventoriesByName("minecraft:oak_log")
-      if oak["amount"] > 0 then
-        furnaces = getFreeFurnaces()
-        if not furnaces == nil then
-          amounttobemoved = itemlimit - currentAmount
-          oak["inv"].pushItems(peripheral.getName(furnaces[1]),oak["slot"],amounttobemoved,1)
-        else
-          print("no free furnaces")
-        end
+    oak = findItemInAllInventoriesByName("minecraft:oak_log")
+    oak["amount"]
+    if oak["amount"] > 0 then
+      furnaces = getFreeFurnaces()
+      if not furnaces == nil then
+        amounttobemoved = itemlimit - currentAmount
+        oak["inv"].pushItems(peripheral.getName(furnaces[1]),oak["slot"],amounttobemoved,1)
       else
-        print("no logs in stock to be burned")
+        print("no free furnaces")
       end
     else
+      print("no logs in stock to be burned")
+    end
+  else
     print("enough charcoal in stock")
   end
 end
