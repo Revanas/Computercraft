@@ -46,7 +46,7 @@ function findItemInAllInventoriesByName(item)
       local _result = findItemInInventoryByName(v, item)
       --print(_result["slot"])
       if (_result["slot"] ~= 0) then
-        print("Item gefunden!")
+        --print("Item gefunden!")
         result["slot"] = _result["slot"]
         result["inv"] = v
         result["amount"] = _result["amount"]
