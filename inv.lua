@@ -39,7 +39,8 @@
 --Returns 0,nil,0 if nothing found
 function findItemInAllInventoriesByName(item)
   local result = { slot = 0, inv = nil, amount = 0 }
-    chests = { peripheral.find("minecraft:chest") }
+    chests = { peripheral.find("sophisticatedstorage:limited_barrel") }
+    --chests = { peripheral.find("minecraft:chest") }
     for k,v in pairs(chests) do
       print("Durchsuche Kiste: "..k)
       local _result = findItemInInventoryByName(v, item)
@@ -82,17 +83,19 @@ end
 --inv.checkFuelStatusAndRefill(6, 2)
 function checkFuelStatusAndRefill(expectedamount, slottocheck)
   local result = {}
+  local amounttobemoved = 0
   local furnaces = { peripheral.find("minecraft:furnace") }
   for k,v in pairs(furnaces) do
     if v.getItemDetail(2) == nil then
-      amountobemoved = expectedamount
+      amounttobemoved = expectedamount
     elseif v.getItemDetail(2).count < expectedamount then
-      amountobemoved = expectedamount - v.getItemDetail(2).count
+      amounttobemoved = expectedamount - v.getItemDetail(2).count
     else
-      amountobemoved = 0
+      amounttobemoved = 0
     end
 
-    if amountobemoved > 0 then
+    if amounttobemoved > 0 then
+      coal = findItemInAllInventoriesByName("Charcoal")
       if coal["amount"] > 0 then
         coal["inv"].pushItems(peripheral.getName(v),coal["slot"],amounttobemoved,slottocheck)
       else
