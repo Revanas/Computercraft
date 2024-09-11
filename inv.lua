@@ -142,9 +142,9 @@ function getCurrenAmountOfItemsBeeingSmelted(item)
 end
 
 function produceCharcoal(itemlimit)
-  currentAmount = getCurrenAmountOfItemsBeeingSmelted("minecraft:oak_log") + findItemInAllInventoriesByName("minecraft:charcoal")["amount"]
+  currentAmount = getCurrenAmountOfItemsBeeingSmelted("Oak Log") + findItemInAllInventoriesByName("Charcoal")["amount"]
   if currentAmount < itemlimit then
-    oak = findItemInAllInventoriesByName("minecraft:oak_log")
+    oak = findItemInAllInventoriesByName("Oak Log")
     print(oak["amount"])
     if oak["amount"] > 0 then
       furnaces = getFreeFurnaces()
