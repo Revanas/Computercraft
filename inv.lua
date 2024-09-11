@@ -124,7 +124,7 @@ end
 
 function getFreeFurnaces()
   local furnaces = getFurnaces()
-  freefurnaces = {}
+  freefurnaces = nil
   for k,v in pairs(furnaces) do
     if v.getItemDetail(1) == nil then
       --print("free furnace found")
