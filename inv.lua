@@ -138,8 +138,8 @@ function getCurrenAmountOfItemsBeeingSmelted(item)
   local furnaces = getFurnaces()
   amount = 0
   for k,v in pairs(furnaces) do
-    if not v.getItemDetail(1) == nil then
-      if v.getItemDetail(1).name == item then
+    if v.getItemDetail(1) ~= nil then
+      if v.getItemDetail(1).displayName == item then
         amount = v.getItemDetail(1).count + amount
       end
     end
