@@ -120,12 +120,13 @@ end
 
 function getFreeFurnaces()
   local furnaces = getFurnaces()
+  local freefurnaces = {}
   for k,v in pairs(furnaces) do
     if v.getItemDetail(1) == nil then
-      table.insert(v)
+      table.insert(freefurnaces, v)
     end
   end
-  return furnaces
+  return freefurnaces
 end
 
 function getCurrenAmountOfItemsBeeingSmelted(item)
