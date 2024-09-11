@@ -107,34 +107,3 @@ end
     
         
 
--- TEST
-chest = peripheral.wrap("left")
-findItemInInventoryByName(chest, "charcoal")
-
- 
-local im = peripheral.find("inventoryManager")
-local cb = peripheral.find("chatBox")
- 
-if im == nil then error("the inventory manager not found") end
-if cb == nil then error("chatBox not found") end
- 
-print("Running dumper")
- 
-while true do
- 
-    local e, player, msg = os.pullEvent("chat")
-    if msg == "dump" and player == "toastonrye" then
-        print("Dumping slots 9 through 26")
-        myInv = im.getItems()
-        local foo = {}
-        for k,v in pairs(myInv) do
-            table.insert(foo,k,v.count)  
-        end
-        for k,v in pairs(foo) do
-            if k>=9 and k<=26 then
-                print(k..": "..v)
-                im.removeItemFromPlayer("EAST",v,k)
-            end
-        end
-    end
-end
