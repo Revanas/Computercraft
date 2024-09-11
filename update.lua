@@ -1,4 +1,4 @@
-local runURL = ""
+local runURL = "https://raw.githubusercontent.com/Revanas/Computercraft/main/run.lua"
 local startupURL = "https://raw.githubusercontent.com/Revanas/Computercraft/main/inv.lua"
 local lib, startup
 local libFile, startupFile
