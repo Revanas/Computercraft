@@ -183,7 +183,7 @@ function smeltItemsInChest(inventoryType)
         if #furnaces > 0 then
           amountperfurnace = details.count / #furnaces
           for k,furnace in pairs(furnaces) do
-            inventory["inv"].pushItems(peripheral.getName(furnace),inventory["slot"],amountperfurnace,1)
+            inventory.pushItems(peripheral.getName(furnace),slot,amountperfurnace,1)
           end
         end
       end
