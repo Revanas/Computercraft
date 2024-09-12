@@ -111,8 +111,9 @@ function emptyFurnaces()
   local furnaces = { peripheral.find("minecraft:furnace") }
   local chest = peripheral.find("minecraft:chest")
   for k,v in pairs(furnaces) do
-    if v.getItemDetail(2).displayName == "Charcoal" then
-      findItemInAllInventoriesByName("Charcoal", "sophisticatedstorage:limited_barrel")["inv"].pullItems(peripheral.getName(v),3)
+    local result = findItemInAllInventoriesByName(getItemDetail(3).displayName, "sophisticatedstorage:limited_barrel")
+    if v.getItemDetail(3).displayName ~= nil then
+      result["inv"].pullItems(peripheral.getName(v),3)
     else
       chest.pullItems(peripheral.getName(v),3)
     end
