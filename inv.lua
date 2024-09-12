@@ -181,7 +181,7 @@ function smeltItemsInChest(inventoryType)
       --print("Vorhandenes Item: "..textutils.serialise(_item))
       details = inventory.getItemDetail(slot)
       --print(textutils.serialise(details))
-      if (details.tags["forge:dusts"] or details.displayName == "Wheat") then
+      if (details.tags["forge:dusts"] or details.displayName == "Bread") then
         furnaces = getFreeFurnaces()
         if #furnaces > 0 then
           modulo = details.count % #furnaces
