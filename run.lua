@@ -6,5 +6,7 @@ while true do
   inv.emptyFurnaces()
   print("check stock for cole")
   inv.produceCharcoal(256)
+  print("check for and smelt dusts")
+  smeltItemsInChest("minecraft:chest")
   sleep(10)
 end
