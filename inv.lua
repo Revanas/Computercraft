@@ -183,12 +183,14 @@ function smeltItemsInChest(inventoryType)
         if #furnaces > 0 then
           modulo = details.count % #furnaces
           amountperfurnace = (details.count - modulo) / #furnaces
-          print("try to smelt: "..details.displayName)
+          --print("try to smelt: "..details.displayName)
           for k,furnace in pairs(furnaces) do
-            print("move: "..amountperfurnace+modulo.." of "..details.displayName.." to "..peripheral.getName(furnace))
-            inventory.pushItems(peripheral.getName(furnace),slot,amountperfurnace+modulo,1)
-            if modulo > 0 then
-              modulo = 0
+            if amountperfurnace+modulo > 0 then
+              print("move: "..amountperfurnace+modulo.." of "..details.displayName.." to "..peripheral.getName(furnace))
+              inventory.pushItems(peripheral.getName(furnace),slot,amountperfurnace+modulo,1)
+              if modulo > 0 then
+                modulo = 0
+              end
             end
           end
         end
