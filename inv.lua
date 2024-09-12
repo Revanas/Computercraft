@@ -182,7 +182,7 @@ function smeltItemsInChest(inventoryType)
         furnaces = getFreeFurnaces()
         if #furnaces > 0 then
           amountperfurnace = details.count / #furnaces
-          print("try to smelt: "..details.displayName")
+          print("try to smelt: "..details.displayName)
           for k,furnace in pairs(furnaces) do
             inventory.pushItems(peripheral.getName(furnace),slot,amountperfurnace,1)
           end
