@@ -7,6 +7,6 @@ while true do
   print("check stock for cole")
   inv.produceCharcoal(256)
   print("check for and smelt dusts")
-  smeltItemsInChest("minecraft:chest")
+  inv.smeltItemsInChest("minecraft:chest")
   sleep(10)
 end
