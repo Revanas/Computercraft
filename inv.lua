@@ -184,6 +184,7 @@ function smeltItemsInChest(inventoryType)
           amountperfurnace = details.count / #furnaces
           print("try to smelt: "..details.displayName)
           for k,furnace in pairs(furnaces) do
+            print("move: "..amountperfurnace.." of "..details.displayName.." to "..peripheral.getName(furnace)
             inventory.pushItems(peripheral.getName(furnace),slot,amountperfurnace,1)
           end
         end
