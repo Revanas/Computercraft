@@ -37,9 +37,11 @@
 
 --Returns Slot, Inventory and amount
 --Returns 0,nil,0 if nothing found
-function findItemInAllInventoriesByName(item)
+--item: displayname of an item e.g. "Oak Log"
+--inventoryType: name of the inventory e.g. "sophisticatedstorage:limited_barrel" or "minecraft:chest"
+function findItemInAllInventoriesByName(item, inventoryType)
   local result = { slot = 0, inv = nil, amount = 0 }
-    chests = { peripheral.find("sophisticatedstorage:limited_barrel") }
+    chests = { peripheral.find(inventoryType) }
     --chests = { peripheral.find("minecraft:chest") }
     for k,v in pairs(chests) do
       --print("Durchsuche Kiste: "..k)
@@ -95,7 +97,7 @@ function checkFuelStatusAndRefill(expectedamount, slottocheck)
     end
 
     if amounttobemoved > 0 then
-      coal = findItemInAllInventoriesByName("Charcoal")
+      coal = findItemInAllInventoriesByName("Charcoal", "sophisticatedstorage:limited_barrel")
       if coal["amount"] > 0 then
         coal["inv"].pushItems(peripheral.getName(v),coal["slot"],amounttobemoved,slottocheck)
       else
@@ -110,7 +112,7 @@ function emptyFurnaces()
   local chest = peripheral.find("minecraft:chest")
   for k,v in pairs(furnaces) do
     if v.getItemDetail(2).displayName == "Charcoal" then
-      findItemInAllInventoriesByName("Charcoal")["inv"].pullItems(peripheral.getName(v),3)
+      findItemInAllInventoriesByName("Charcoal", "sophisticatedstorage:limited_barrel")["inv"].pullItems(peripheral.getName(v),3)
     else
       chest.pullItems(peripheral.getName(v),3)
     end
@@ -121,12 +123,12 @@ function getFurnaces()
   return { peripheral.find("minecraft:furnace") }
 end
 
-
-function getFreeFurnaces()
+--item: displayname of an item that should be considered
+function getFreeFurnaces(item)
   local furnaces = getFurnaces()
   freefurnaces = {}
   for k,v in pairs(furnaces) do
-    if v.getItemDetail(1) == nil then
+    if v.getItemDetail(1) == nil or v.getItemDetail(1).displayName == item then
       --print("free furnace found")
       table.insert(freefurnaces,v)
     end
@@ -148,9 +150,9 @@ function getCurrenAmountOfItemsBeeingSmelted(item)
 end
 
 function produceCharcoal(itemlimit)
-  currentAmount = getCurrenAmountOfItemsBeeingSmelted("Oak Log") + findItemInAllInventoriesByName("Charcoal")["amount"]
+  currentAmount = getCurrenAmountOfItemsBeeingSmelted("Oak Log") + findItemInAllInventoriesByName("Charcoal", "sophisticatedstorage:limited_barrel")["amount"]
   if currentAmount < itemlimit then
-    oak = findItemInAllInventoriesByName("Oak Log")
+    oak = findItemInAllInventoriesByName("Oak Log", "sophisticatedstorage:limited_barrel")
     --print(oak["amount"])
     if oak["amount"] > 0 then
       furnaces = getFreeFurnaces()
@@ -165,6 +167,27 @@ function produceCharcoal(itemlimit)
     end
   else
     print("enough charcoal in stock")
+  end
+end
+
+--inventoryType: e.g. "minecraft:chest"
+function smeltItemsInChest(inventoryType)
+  chests = { peripheral.find(inventoryType) }
+  for k,inventory in pairs(chests) do
+    for slot, _item in pairs(inventory.list()) do
+      --print("Vorhandenes Item: "..textutils.serialise(_item))
+      details = inventory.getItemDetail(slot)
+      --print(textutils.serialise(details))
+      if (details.tags["forge:dusts"]) then
+        furnaces = getFreeFurnaces()
+        if #furnaces > 0 then
+          amountperfurnace = details.count / #furnaces
+          for k,furnace in pairs(furnaces) do
+            inventory["inv"].pushItems(peripheral.getName(furnace),inventory["slot"],amountperfurnace,1)
+          end
+        end
+      end
+    end
   end
 end
     
